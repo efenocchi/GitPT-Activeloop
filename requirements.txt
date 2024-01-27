@@ -1,0 +1,6 @@
+vercel==0.2.1
+llama-index==0.9.38
+deeplake==3.8.17
+openai==1.10.0
+python-dotenv==1.0.1
+llama-hub==0.0.76
