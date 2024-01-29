@@ -1,24 +1,13 @@
-import requests  # for making HTTP requests to external services
-import re
-import os
 import textwrap
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
-from llama_index import download_loader
-from llama_hub.github_repo import GithubRepositoryReader, GithubClient
-from llama_index import VectorStoreIndex
-from llama_index.vector_stores import DeepLakeVectorStore
-from llama_index.storage.storage_context import StorageContext
 
 from external_services import InitiazlizeGithubService, InitiazlizeActiveloopService
 
 # Load environment variables
 load_dotenv()
 
-
-github_service = InitiazlizeGithubService()
-activeloop_service = InitiazlizeActiveloopService()
 
 app = FastAPI()
 
@@ -36,6 +25,8 @@ async def scrape_and_upload_to_activeloop(repo_request: GitHubRepoRequest):
     # Add logic to scrape and upload to ActiveLoop
     # Example: Scrape GitHub repo and upload to ActiveLoop
     # Implement your scraping and upload logic here
+    github_service = InitiazlizeGithubService()
+    activeloop_service = InitiazlizeActiveloopService()
 
     print(f"repo from user: {repo_request.githubRepoUrl}")
 
@@ -51,6 +42,7 @@ async def find_similar_code_and_explain(code_request: UserCodeRequest):
     # Add logic to find similar code and provide explanations or improvements
     # Example: Search in ActiveLoop DB
     # Implement your search and analysis logic here
+    activeloop_service = InitiazlizeActiveloopService()
 
     print(f"code from user: {code_request.userCode}")
 

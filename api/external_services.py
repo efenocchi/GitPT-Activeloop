@@ -1,9 +1,6 @@
-import requests  # for making HTTP requests to external services
 import re
 import os
-import textwrap
-from fastapi import FastAPI, HTTPException, Request
-from pydantic import BaseModel
+from fastapi import HTTPException
 from dotenv import load_dotenv
 from llama_index import download_loader
 from llama_hub.github_repo import GithubRepositoryReader, GithubClient
