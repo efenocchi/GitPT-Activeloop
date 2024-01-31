@@ -58,11 +58,11 @@ class InitiazlizeGithubService:
                 owner=self.owner,
                 repo=self.repo,
                 filter_file_extensions=(
-                    [".py", ".js", ".ts", ".md"],
+                    [".py", ".js", ".ts", ".md", ".ipynb"],
                     GithubRepositoryReader.FilterType.INCLUDE,
                 ),
                 verbose=False,
-                concurrent_requests=5,
+                concurrent_requests=25,
             )
 
             print(f"Loading {self.repo} repository by {self.owner}")
@@ -71,7 +71,7 @@ class InitiazlizeGithubService:
             print("Documents uploaded:")
             for doc in docs:
                 print(doc.metadata)
-
+            print("return docs\n")
             return docs
 
         else:
@@ -98,6 +98,7 @@ class InitiazlizeActiveloopService:
         )
 
     def upload_to_activeloop(self, docs):
+        print("uploading to activeloop")
         self.index = VectorStoreIndex.from_documents(
             docs, storage_context=self.storage_context
         )
