@@ -3,11 +3,13 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
-from external_services import InitiazlizeGithubService, InitiazlizeActiveloopService
+from api.external_services import InitiazlizeGithubService, InitiazlizeActiveloopService
 
 # Load environment variables
 load_dotenv()
 
+github_service = InitiazlizeGithubService()
+activeloop_service = InitiazlizeActiveloopService()
 
 app = FastAPI()
 
@@ -25,8 +27,6 @@ async def scrape_and_upload_to_activeloop(repo_request: GitHubRepoRequest):
     # Add logic to scrape and upload to ActiveLoop
     # Example: Scrape GitHub repo and upload to ActiveLoop
     # Implement your scraping and upload logic here
-    github_service = InitiazlizeGithubService()
-    activeloop_service = InitiazlizeActiveloopService()
 
     print(f"repo from user: {repo_request.githubRepoUrl}")
 
@@ -42,7 +42,6 @@ async def find_similar_code_and_explain(code_request: UserCodeRequest):
     # Add logic to find similar code and provide explanations or improvements
     # Example: Search in ActiveLoop DB
     # Implement your search and analysis logic here
-    activeloop_service = InitiazlizeActiveloopService()
 
     print(f"code from user: {code_request.userCode}")
 
@@ -52,8 +51,7 @@ async def find_similar_code_and_explain(code_request: UserCodeRequest):
     print("=" * 50)
 
     answer = activeloop_service.query_engine.query(intro_question)
-    print(f"Answer: {textwrap.fill(str(answer), 100)} \n")
-
+    print(f"Answer: {answer.__dict__}\n")
     return {
         "answer": answer,
     }
