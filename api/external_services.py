@@ -81,6 +81,12 @@ class InitiazlizeGithubService:
             )
 
 
+def get_yaml_data():
+    with open("resources.yaml", "r") as file:
+        yaml_data = yaml.safe_load(file)
+    return yaml_data
+
+
 class InitiazlizeActiveloopService:
     def __init__(self):
         self.active_loop_token = get_validate_token(
@@ -105,8 +111,6 @@ class InitiazlizeActiveloopService:
         self.query_engine = self.index.as_query_engine()
 
     def get_user_info(self, user_info):
-        with open("resources.yaml", "r") as file:
-            yaml_data = yaml.safe_load(file)
-
+        yaml_data = get_yaml_data()
         retrieved_info = yaml_data["info"][user_info]
         return retrieved_info

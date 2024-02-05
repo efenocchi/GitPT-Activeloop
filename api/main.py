@@ -3,7 +3,11 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
-from api.external_services import InitiazlizeGithubService, InitiazlizeActiveloopService
+from api.external_services import (
+    InitiazlizeGithubService,
+    InitiazlizeActiveloopService,
+    get_yaml_data,
+)
 
 # Load environment variables
 load_dotenv()
@@ -33,8 +37,12 @@ async def scrape_and_upload_to_activeloop(repo_request: GitHubRepoRequest):
     owner, repo = github_service.parse_github_url(repo_request.githubRepoUrl)
     docs = github_service.load_repo_data(owner, repo)
     activeloop_service.upload_to_activeloop(docs)
-
-    return {"status": "success", "message": "Repo processed successfully"}
+    user_info = get_yaml_data()
+    return {
+        "status": "success",
+        "message": "Repo processed successfully",
+        "dataset_url": f"https://app.activeloop.ai/{user_info['info']['dataset_path']}",
+    }
 
 
 @app.post("/retrieve")
